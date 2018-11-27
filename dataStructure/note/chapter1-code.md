@@ -1,66 +1,111 @@
 # 数据结构第一章
-## 概念
-### 数据结构的定义
-> 数据结构是一门研究非数值计算的程序设计问题中计算机的操
-作对象以及它们之间的关系和操作等的学科。
+## 代码和注释
+### 头文件
+```
+// c1.h （文件名）
+#include<string.h> 
+#include<ctype.h> 
+#include<malloc.h> 
+#include<limits.h> 
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<io.h> 
+#include<math.h> 
+#include<sys/timeb.h> 
+#include<stdarg.h> 
+// 函数结果状态代码。在严书第10页
+#define TRUE 1
+#define FALSE 0
+#define OK 1
+#define ERROR 0
+// #define INFEASIBLE -1 没使用
+// #define OVERFLOW -2 因为在math.h中已定义OVERFLOW的值为3，故去掉此行
+typedef int Status; 
+typedef int Boolean; 
+```
 
-### 数据
-> 数据是对客观事物的符号表示，在计算机科学中是指所有能输
-入到计算机中并被计算机程序处理的符号的总称。
+### 第一个例子
+#### algo1-1.cpp
+```
+// algo1-1.cpp 变量的引用类型和非引用类型的区别
+#include"c1.h"
+void fa(int a) 
+{ a++;
+  printf("在函数fa中：a=%d\n", a);
+}
+void fb(int &a) 
+{ a++;
+  printf("在函数fb中：a=%d\n", a);
+}
+int main()
+{
+  int n=1;
+  printf("在主程中，调用函数fa之前：n=%d\n", n);
+  fa(n);
+  printf("在主程中，调用函数fa之后，调用函数fb之前：n=%d\n", n);
+  fb(n);
+  printf("在主程中，调用函数fb之后：n=%d\n", n);
+  system("pause");
+  return 0;
+}
+```
+#### 运行结果
+!['运行结果'](../img/demo1.png '运行结果')
 
-### 数据元素
-> 数据元素是数据的基本单位。一个数据元素可由若干个数据项
-组成。数据项是数据的不可分割的最小单位。
-
-### 数据对象
-> 数据对象是性质相同的数据元素的集合，是数据的一个子集。
-
-### 数据结构
-> 数据结构是相互之间存在一种或多种特定关系的数据元素的集合。
-
-### 四类基本结构
-
-1. 集合
-2. 线性结构
-3. 树形结构
-4. 图形结构或网状结构
-
-### 逻辑结构
-> 结构定义中的“关系”描述的是数据元素之间的逻辑关系，因此
-又称为数据的逻辑结构。
-
-### 存储结构
-> 数据结构在计算机中的表示（又称映像）称为数据的物理结构，又称存储结构。
-
-### 数据类型
-> 数据类型是一个值的集合和定义在这个值集上的一组操作的总称。
-
-### 抽象数据类型
-> 抽象数据类型是指一个数学模型以及定义在该模型上的一组操作。
-
-### 两种参数
-> 基本操作有两种参数，赋值参数只为操作提供输入值；引用参数
-以 &amp; 打头，除可提供输入值之外，还将返回操作结果。
-
-### 算法5个重要特性
-* 有穷性
-    * 一个算法必须总是在执行有穷步之后结束，且每一步都可以在又穷时间内完成。
-* 确定性
-    * 算法中每一条指令必须有确切含义，对于相同的输入只能得出相同的输出。
-* 可行性
-    * 一个算法是能行的，即算法中描述的操作都是可以通过已经实现的基本运
-    算执行有限次来实现的。
-* 输入
-    * 一个算法有零个或多个输入。
-* 输出
-    * 一个算法有一个或多个输出。
-    
-### 算法的设计要求
-* 正确性
-* 可读性
-* 健壮性
-* 效率和低存储量需求
+### 第二个例子
+#### algo1-2.cpp
+```
+// algo1-3.cpp 计算1-1/x+1/(x*x)…的更快捷的算法
+#include"c1.h"
+int main()
+{
+  timeb t1, t2;
+  long t;
+  double x, sum1=1, sum=1;
+  int i, n;
+  printf("请输入x n：");
+  scanf("%lf%d", &x, &n);
+  ftime(&t1);
+  for(i=1; i<=n; i++)
+  { sum1*=-1.0/x;
+    sum+=sum1;
+  }
+  ftime(&t2);
+  t=(t2.time-t1.time)*1000+(t2.millitm-t1.millitm);
+  printf("sum=%lf，用时%ld毫秒\n", sum, t);
+  return 0;
+}
+```
+#### 运行结果
+!['运行结果'](../img/demo2.png '运行结果')
 
 
+### 第三个例子
+#### algo1-3.cpp
+```
+// algo1-3.cpp 计算1-1/x+1/(x*x)…的更快捷的算法
+#include"c1.h"
+int main()
+{
+  timeb t1, t2;
+  long t;
+  double x, sum1=1, sum=1;
+  int i, n;
+  printf("请输入x n：");
+  scanf("%lf%d", &x, &n);
+  ftime(&t1);
+  for(i=1; i<=n; i++)
+  { sum1*=-1.0/x;
+    sum+=sum1;
+  }
+  ftime(&t2);
+  t=(t2.time-t1.time)*1000+(t2.millitm-t1.millitm);
+  printf("sum=%lf，用时%ld毫秒\n", sum, t);
+  system("pause");
+  return 0;
+}
 
+```
+#### 运行结果
+!['运行结果'](../img/demo3.png '运行结果')
 
